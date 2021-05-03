@@ -24,20 +24,23 @@ import javax.validation.Valid
 class ArticleController(private val articleService: ArticleService) {
 
     @GetMapping
-    fun findAll() = articleService.findAll()
     @ApiOperation("Получить список всех статей")
+    fun findAll() = articleService.findAll()
 
+    @ApiOperation("Получить статью по ее ID")
     @GetMapping("/{id}")
     fun findById(@PathVariable("id") id: Int): Article {
         return articleService.findById(id)
     }
 
+    @ApiOperation("Добавить новую статью")
     @PostMapping
     fun create(@Valid @RequestBody request: InsertArticleRequest): StatusResponse {
         articleService.create(request)
         return StatusResponse("Created")
     }
 
+    @ApiOperation("Изменить ранее добавленную статью")
     @PutMapping("/{id}")
     fun update(
             @PathVariable("id") id: Int,
@@ -46,6 +49,7 @@ class ArticleController(private val articleService: ArticleService) {
         return StatusResponse("Updated")
     }
 
+    @ApiOperation("Удалить статью")
     @DeleteMapping("/{id}")
     fun delete(@PathVariable("id") id: Int
     ): StatusResponse {
